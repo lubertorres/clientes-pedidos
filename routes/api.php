@@ -23,4 +23,4 @@ Route::get('/pedidos', [PedidoController::class, 'listarPedidos']);
 Route::put('/pedidos/{pedidoID}', [PedidoController::class, 'editarDetalles']);
 Route::delete('/pedidos/{id}', [PedidoController::class, 'anularPedido']);
 Route::put('/pedidos/estado/{id}', [PedidoController::class, 'cambiarEstado']);
-
+Route::get('/pedidos/filtrar', [PedidoController::class, 'filtrarPedidos']);
