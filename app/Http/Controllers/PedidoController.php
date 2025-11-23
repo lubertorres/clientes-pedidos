@@ -11,7 +11,7 @@ class PedidoController extends Controller
     {
         try {
             $request->validate([
-                'clienteID' => 'required|integer',
+                'identificacion' => 'required|string|max:15',
                 'detalles' => 'required|array',
                 'detalles.*.productoID' => 'required|integer',
                 'detalles.*.cantidad' => 'required|integer|min:1'
@@ -21,10 +21,10 @@ class PedidoController extends Controller
 
             $result = DB::select("
                 EXEC ventas.sp_InsertarPedidoCompleto_JSON
-                    @ClienteID = ?,
-                    @DetallesJSON = ?
+                    @in_identificacion = ?,
+                    @in_DetallesJSON = ?
             ", [
-                $request->clienteID,
+                $request->identificacion,
                 $jsonDetalles
             ]);
 

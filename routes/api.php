@@ -11,6 +11,7 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\PedidoController;
 
+Route::get('/clientes', [ClienteController::class, 'listar']);
 Route::post('/clientes', [ClienteController::class, 'insertar']);
 Route::post('/categorias', [CategoriaController::class, 'insertar']);
 Route::post('/productos', [ProductoController::class, 'insertar']);
