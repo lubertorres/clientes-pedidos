@@ -20,3 +20,5 @@ Route::post('/productos', [ProductoController::class, 'insertar']);
 Route::get('/productos', [ProductoController::class, 'listarProductos']);
 Route::post('/pedidos/completo', [PedidoController::class, 'insertarCompleto']);
 Route::get('/pedidos', [PedidoController::class, 'listarPedidos']);
+Route::put('/pedidos/{pedidoID}', [PedidoController::class, 'editarDetalles']);
+Route::delete('/pedidos/{id}', [PedidoController::class, 'anularPedido']);

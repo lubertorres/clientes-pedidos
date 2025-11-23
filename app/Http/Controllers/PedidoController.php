@@ -44,7 +44,7 @@ class PedidoController extends Controller
     public function listarPedidos()
     {
         try {
-            $pedidos = DB::select("SELECT * FROM ventas.vw_pedidos_completos ORDER BY clienteID DESC");
+            $pedidos = DB::select("SELECT * FROM ventas.vw_pedidos_completos ORDER BY fechaPedido DESC");
 
             $pedidos = array_map(function($p) {
                 $p = (array) $p;
@@ -55,6 +55,61 @@ class PedidoController extends Controller
             return response()->json([
                 'ok' => true,
                 'data' => $pedidos
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function editarDetalles(Request $request, $pedidoID)
+    {
+        try {
+            $request->validate([
+                'detalles' => 'required|array',
+                'detalles.*.productoID' => 'required|integer',
+                'detalles.*.cantidad' => 'required|integer|min:1'
+            ]);
+
+            $jsonDetalles = json_encode($request->detalles);
+
+            $result = DB::select("
+                EXEC ventas.sp_EditarPedidoDetalles_JSON
+                    @in_pedidoID = ?,
+                    @in_DetallesJSON = ?
+            ", [
+                $pedidoID,
+                $jsonDetalles
+            ]);
+
+            return response()->json([
+                'ok' => true,
+                'pedido' => $result[0] ?? null,
+                'mensaje' => 'Pedido actualizado correctamente'
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+
+    public function anularPedido($pedidoID)
+    {
+        try {
+            $result = DB::select("
+                EXEC ventas.sp_AnularPedido @pedidoID = ?
+            ", [$pedidoID]);
+
+            return response()->json([
+                'ok' => true,
+                'mensaje' => $result[0]->mensaje ?? 'Pedido anulado correctamente'
             ], 200);
 
         } catch (\Exception $e) {
