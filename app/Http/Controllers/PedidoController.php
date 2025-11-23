@@ -119,4 +119,36 @@ class PedidoController extends Controller
             ], 500);
         }
     }
+
+    public function cambiarEstado(Request $request, $pedidoID)
+    {
+        try {
+            $request->validate([
+                'estado' => 'required|string'
+            ]);
+
+            $estado = $request->estado;
+
+            $result = DB::select("
+                EXEC ventas.sp_CambiarEstadoPedido
+                    @pedidoID = ?,
+                    @nuevoEstado = ?
+            ", [
+                $pedidoID,
+                $estado
+            ]);
+
+            return response()->json([
+                'ok' => true,
+                'pedido' => $result[0],
+                'mensaje' => "Estado actualizado a {$estado}"
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
