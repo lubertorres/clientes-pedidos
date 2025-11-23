@@ -49,7 +49,7 @@ class ClienteController extends Controller
             ], 500);
         }
     }
-    
+
     public function listar()
     {
         try {
@@ -68,4 +68,59 @@ class ClienteController extends Controller
         }
     }
 
+    public function actualizar(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                'nombres' => 'required|string|max:100',
+                'apellidos' => 'required|string|max:100',
+                'identificacion' => 'nullable|string|max:20',
+                'email' => 'nullable|email|max:150',
+                'telefono' => 'nullable|string|max:20',
+                'direccion' => 'nullable|string|max:200',
+            ]);
+
+            $params = [
+                $id,
+                $request->identificacion,
+                $request->nombres,
+                $request->apellidos,
+                $request->email,
+                $request->telefono,
+                $request->direccion
+            ];
+
+            $result = DB::select("EXEC ventas.sp_editar_cliente ?,?,?,?,?,?,?", $params);
+
+            return response()->json([
+                'ok' => true,
+                'mensaje' => $result[0]->mensaje
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function eliminar($id)
+    {
+        try {
+            // Ejecuta el SP de eliminación lógica
+            DB::statement("EXEC ventas.sp_EliminarCliente @clienteID = ?", [$id]);
+
+            return response()->json([
+                'ok' => true,
+                'mensaje' => 'Cliente inactivado correctamente.'
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

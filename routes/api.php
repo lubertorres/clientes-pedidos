@@ -13,6 +13,8 @@ use App\Http\Controllers\PedidoController;
 
 Route::get('/clientes', [ClienteController::class, 'listar']);
 Route::post('/clientes', [ClienteController::class, 'insertar']);
+Route::put('clientes/{id}', [ClienteController::class, 'actualizar']);
+Route::delete('/clientes/{id}', [ClienteController::class, 'eliminar']);
 Route::post('/categorias', [CategoriaController::class, 'insertar']);
 Route::post('/productos', [ProductoController::class, 'insertar']);
 Route::post('/pedidos/completo', [PedidoController::class, 'insertarCompleto']);
