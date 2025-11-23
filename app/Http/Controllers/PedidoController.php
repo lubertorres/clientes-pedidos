@@ -40,4 +40,28 @@ class PedidoController extends Controller
             ], 500);
         }
     }
+
+    public function listarPedidos()
+    {
+        try {
+            $pedidos = DB::select("SELECT * FROM ventas.vw_pedidos_completos ORDER BY clienteID DESC");
+
+            $pedidos = array_map(function($p) {
+                $p = (array) $p;
+                $p['detalles'] = isset($p['detalles']) ? json_decode($p['detalles'], true) : [];
+                return $p;
+            }, $pedidos);
+
+            return response()->json([
+                'ok' => true,
+                'data' => $pedidos
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

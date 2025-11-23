@@ -40,4 +40,22 @@ class ProductoController extends Controller
             ], 500);
         }
     }
+
+        public function listarProductos()
+    {
+        try {
+            $productos = DB::select("SELECT * FROM ventas.vw_obtener_productos");
+
+            return response()->json([
+                'ok' => true,
+                'data' => $productos
+            ], 200);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'ok' => false,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }
