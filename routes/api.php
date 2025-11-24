@@ -10,6 +10,7 @@ use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\DashboardController;
 
 Route::get('/clientes', [ClienteController::class, 'listar']);
 Route::post('/clientes', [ClienteController::class, 'insertar']);
@@ -24,3 +25,4 @@ Route::put('/pedidos/{pedidoID}', [PedidoController::class, 'editarDetalles']);
 Route::delete('/pedidos/{id}', [PedidoController::class, 'anularPedido']);
 Route::put('/pedidos/estado/{id}', [PedidoController::class, 'cambiarEstado']);
 Route::get('/pedidos/filtrar', [PedidoController::class, 'filtrarPedidos']);
+Route::get('/dashboard/estadisticas', [DashboardController::class, 'dashboard']);
