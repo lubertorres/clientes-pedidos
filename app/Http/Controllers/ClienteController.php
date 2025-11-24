@@ -7,10 +7,14 @@ use Illuminate\Support\Facades\DB;
 
 class ClienteController extends Controller
 {
+    public function __construct()
+    {
+        require_once __DIR__ . '/../Middleware/CheckAuth.php';
+    }
+
     public function insertar(Request $request)
     {
         try {
-            // Validación básica
             $request->validate([
                 'nombres' => 'required|string|max:60',
                 'apellidos' => 'required|string|max:60',

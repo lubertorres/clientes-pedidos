@@ -9,6 +9,8 @@ class PedidoController extends Controller
 {
     public function insertarCompleto(Request $request)
     {
+        require_once __DIR__ . '/../Middleware/CheckAuth.php';
+
         try {
             $request->validate([
                 'identificacion' => 'required|string|max:15',

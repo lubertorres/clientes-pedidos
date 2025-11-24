@@ -19,9 +19,8 @@ class DashboardController extends Controller
                 ], 500);
             }
 
-            // Obtener la única columna JSON del SP
             $jsonColumn = (array)$result[0];
-            $rawJson = reset($jsonColumn); // el primer valor
+            $rawJson = reset($jsonColumn);
 
             $data = json_decode($rawJson, true);
 
