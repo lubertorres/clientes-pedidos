@@ -72,6 +72,8 @@ class PedidoController extends Controller
 
     public function editarDetalles(Request $request, $pedidoID)
     {
+        require_once __DIR__ . '/../Middleware/CheckAuth.php';
+
         try {
             $request->validate([
                 'detalles' => 'required|array',
@@ -107,6 +109,8 @@ class PedidoController extends Controller
 
     public function anularPedido($pedidoID)
     {
+        require_once __DIR__ . '/../Middleware/CheckAuth.php';
+
         try {
             $result = DB::select("
                 EXEC ventas.sp_AnularPedido @pedidoID = ?
@@ -127,6 +131,7 @@ class PedidoController extends Controller
 
     public function cambiarEstado(Request $request, $pedidoID)
     {
+        require_once __DIR__ . '/../Middleware/CheckAuth.php';
         try {
             $request->validate([
                 'estado' => 'required|string'
@@ -159,6 +164,7 @@ class PedidoController extends Controller
 
     public function filtrarPedidos(Request $request)
     {
+        require_once __DIR__ . '/../Middleware/CheckAuth.php';
         try {
             $request->validate([
                 'estado' => 'nullable|string',

@@ -9,6 +9,7 @@ class ProductoController extends Controller
 {
     public function insertar(Request $request)
     {
+        require_once __DIR__ . '/../Middleware/CheckAuth.php';
         try {
             $request->validate([
                 'nombre' => 'required|string|max:60',
