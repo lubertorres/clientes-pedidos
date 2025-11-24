@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 
 class PedidoController extends Controller
 {
+
     public function insertarCompleto(Request $request)
     {
         require_once __DIR__ . '/../Middleware/CheckAuth.php';
@@ -45,6 +46,8 @@ class PedidoController extends Controller
 
     public function listarPedidos()
     {
+        require_once __DIR__ . '/../Middleware/CheckAuth.php';
+
         try {
             $pedidos = DB::select("SELECT * FROM ventas.vw_pedidos_completos ORDER BY fechaPedido DESC");
 

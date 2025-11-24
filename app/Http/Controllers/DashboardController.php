@@ -9,6 +9,8 @@ class DashboardController extends Controller
 {
     public function dashboard()
     {
+        require_once __DIR__ . '/../Middleware/CheckAuth.php';
+
         try {
             $result = DB::select("EXEC ventas.sp_dashboard_estadisticas");
 
